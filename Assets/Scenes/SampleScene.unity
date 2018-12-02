@@ -263,7 +263,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 130.4}
-  m_SizeDelta: {x: 600, y: 160.8}
+  m_SizeDelta: {x: 800, y: 160.8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &114952678
 MonoBehaviour:
@@ -644,7 +644,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 426515449}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1177962678}
+        m_MethodName: CloseUI
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &426515449
@@ -2502,6 +2513,7 @@ MonoBehaviour:
   - {fileID: 1417201283}
   - {fileID: 1883424293}
   - {fileID: 457124803}
+  gameIsRunning: 0
   objectives:
   - {fileID: 1282400563}
   - {fileID: 1300603704}
@@ -2538,6 +2550,12 @@ MonoBehaviour:
   lebenObj: {fileID: 1070968673}
   punkteObj: {fileID: 902128286}
   rundeObj: {fileID: 1294230103}
+  startText: {fileID: 1316904490}
+  headline: {fileID: 114952678}
+  startUI:
+  - {fileID: 1316904488}
+  - {fileID: 114952676}
+  - {fileID: 426515446}
 --- !u!1 &1203771783
 GameObject:
   m_ObjectHideFlags: 0
@@ -3338,7 +3356,7 @@ MonoBehaviour:
     des Chefredakteurs klauen. Jetzt liegt es an euch, die Weihnachtsfeier zu retten!
 
 
-    Bedienung: WASD + Space bzw. Gamepad'
+    Bedienung: WASD + Space/Mausklick bzw. Gamepad'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9ecd0bddf879cf345b0bcefdfc0d4fb5, type: 2}
   m_sharedMaterial: {fileID: 21235783077317006, guid: 9ecd0bddf879cf345b0bcefdfc0d4fb5,
@@ -3407,10 +3425,10 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 1316904490}
-    characterCount: 191
+    characterCount: 201
     spriteCount: 0
     spaceCount: 27
-    wordCount: 26
+    wordCount: 27
     linkCount: 0
     lineCount: 5
     pageCount: 1

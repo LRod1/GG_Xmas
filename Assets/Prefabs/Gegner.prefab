@@ -21,9 +21,9 @@ GameObject:
   - component: {fileID: 4016256738636344}
   - component: {fileID: 33284467568576306}
   - component: {fileID: 23200601279802962}
+  - component: {fileID: 114801816240915166}
   - component: {fileID: 136142937327859990}
   - component: {fileID: 195785950469952138}
-  - component: {fileID: 114801816240915166}
   m_Layer: 0
   m_Name: Gegner
   m_TagString: Enemy
@@ -99,6 +99,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   agent: {fileID: 195785950469952138}
   target: {fileID: 0}
+  flakonPrefab: {fileID: 1981144549613570, guid: 9debed5db5344004cbb8689bffba65bb,
+    type: 2}
 --- !u!136 &136142937327859990
 CapsuleCollider:
   m_ObjectHideFlags: 1

@@ -8,7 +8,7 @@ public class Pfeil : MonoBehaviour {
     public Rigidbody body;
     float horizontal;
     float vertical;
-    float moveLimiter = 0.7f;
+    //float moveLimiter = 0.7f;
     public float runSpeed = 20;
 
     public ParticleSystem part;
@@ -34,7 +34,9 @@ public class Pfeil : MonoBehaviour {
         if (collision.gameObject.CompareTag("Enemy"))
         {
             Instantiate(part, collision.transform.position, Quaternion.identity);
-            gm.RemoveEnemy(collision.gameObject);
+            GameObject flak = Instantiate(collision.gameObject.GetComponent<GegnerAI>().flakonPrefab, transform.position, Quaternion.identity);
+            flak.transform.rotation = Quaternion.Euler(-90.0f, 0, 0);
+            gm.RemoveEnemy(collision.gameObject, true);
         }
     }
 }

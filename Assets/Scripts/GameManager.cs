@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour {
     public List<GameObject> enemies;
     public List<Transform> spawnPoints;
 
-    private bool gameIsRunning;
+    public bool gameIsRunning;
     private bool waitForSpawn;
     private float spawnTime;
 
@@ -21,25 +21,53 @@ public class GameManager : MonoBehaviour {
     public int Round { get; private set; }
     public int Lives { get; private set; }
     public int Points { get; private set; }
+    public int Highscore { get; private set; }
 
 	// Use this for initialization
 	void Start () {
-        gameIsRunning = true;
-        waitForSpawn = false;
         rnd = new System.Random();
-        spawnTime = 3.0f;
-        Round = 1;
-        counter = 0;
-        roundCounter = 0;
-        Lives = 3;
-        Points = 0;
+        Highscore = 0;
+        ResetGame();
 	}
+
 	
 	// Update is called once per frame
 	void Update () {
         if (gameIsRunning && !waitForSpawn)
             SpawnEnemy();
 	}
+
+    public void StartGame()
+    {
+        ResetGame();
+        gameIsRunning = true;
+    }
+
+    public void EndGame()
+    {
+        gameIsRunning = false;
+        if (Points > Highscore)
+            Highscore = Points;
+        foreach (GameObject enemy in enemies)
+        {
+            Destroy(enemy);
+        }
+        GetComponent<GameUI>().OpenUI();
+    }
+
+    public void ResetGame()
+    {
+        waitForSpawn = false;
+        Round = 1;
+        counter = 0;
+        roundCounter = 0;
+        Lives = 3;
+        Points = 0;
+        spawnTime = 3.0f;
+
+        Vector3 player = new Vector3(0, 1, 0);
+        GameObject.Find("Spieler").transform.position = player;
+    }
 
     public void RemoveLive()
     {
@@ -48,7 +76,12 @@ public class GameManager : MonoBehaviour {
             LostGame();
     }
 
-    public void RemoveEnemy(GameObject enemy)
+    public void AddPoints()
+    {
+        Points += 10 * Round;
+    }
+
+    public void RemoveEnemy(GameObject enemy, bool addPoints)
     {
         enemies.Remove(enemy);
         Destroy(enemy.gameObject);
@@ -62,7 +95,8 @@ public class GameManager : MonoBehaviour {
             if (spawnTime <= 0)
                 WonGame();
         }
-        Points += 10 * Round;
+        if (addPoints)
+            AddPoints();
     }
 
     public Transform GetTarget()
@@ -81,14 +115,14 @@ public class GameManager : MonoBehaviour {
 
     private void WonGame()
     {
-        Debug.Log("YouWon");
-        gameIsRunning = false;
+        GetComponent<GameUI>().headline.SetText("Du hast gewonnen!");
+        EndGame();
     }
 
     private void LostGame()
     {
-        Debug.Log("You Lost");
-        gameIsRunning = false;
+        GetComponent<GameUI>().headline.SetText("Du hast verloren...");
+        EndGame();
     }
 
     IEnumerator WaitSecs(float spTime)

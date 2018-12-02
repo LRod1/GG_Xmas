@@ -16,7 +16,7 @@ public class Objective : MonoBehaviour {
         if (other.CompareTag("Enemy"))
         {
             gm.RemoveLive();
-            gm.RemoveEnemy(other.gameObject);
+            gm.RemoveEnemy(other.gameObject, false);
         }
     }
 }

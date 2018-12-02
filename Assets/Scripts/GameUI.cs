@@ -10,6 +10,10 @@ public class GameUI : MonoBehaviour {
     public TextMeshProUGUI rundeObj;
     private GameManager gm;
 
+    public TextMeshProUGUI startText;
+    public TextMeshProUGUI headline;
+    public List<GameObject> startUI;
+
     private void Awake()
     {
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
@@ -26,4 +30,22 @@ public class GameUI : MonoBehaviour {
         punkteObj.SetText("Punkte: " + gm.Points.ToString());
         rundeObj.SetText("Runde: " + gm.Round.ToString());
 	}
+
+    public void CloseUI()
+    {
+        foreach (GameObject go in startUI)
+        {
+            go.SetActive(false);
+        }
+        gm.StartGame();
+    }
+
+    public void OpenUI()
+    {
+        foreach (GameObject go in startUI)
+        {
+            go.SetActive(true);
+        }
+        startText.SetText("Deine Punkte: " + gm.Points.ToString() + "\nDein Highscore: " + gm.Highscore.ToString());
+    }
 }
