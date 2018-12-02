@@ -17,7 +17,11 @@ public class Controls : MonoBehaviour {
         oben,
         unten,
         links,
-        rechts
+        rechts,
+        obenlinks,
+        obenrechts,
+        untenlinks,
+        untenrechts
     }
     public Direction direction;
     public bool fireReady;
@@ -36,10 +40,35 @@ public class Controls : MonoBehaviour {
 
         //fürs schießen
         if (horizontal != 0 || vertical != 0)
-            if (Mathf.Abs(horizontal) > Mathf.Abs(vertical))
-                direction = (horizontal > 0) ? Direction.rechts : Direction.links;
-            else
-                direction = (vertical > 0) ? Direction.oben : Direction.unten;
+            if (horizontal > 0.5f)
+            {
+                //rechts
+                if (vertical > 0.5f)
+                    direction = Direction.obenrechts;
+                else if (vertical < -0.5f)
+                    direction = Direction.untenrechts;
+                else
+                    direction = Direction.rechts;
+            }
+            else if (horizontal < -0.5f)
+            {
+                //links
+                if (vertical > 0.5f)
+                    direction = Direction.obenlinks;
+                else if (vertical < -0.5f)
+                    direction = Direction.untenlinks;
+                else
+                    direction = Direction.links;
+            }
+            else if (vertical > 0.5f)
+            {
+                direction = Direction.oben;
+            }
+            else if (vertical < -0.5f)
+            {
+                direction = Direction.unten;
+            }
+
 
         if (Input.GetButton("Fire1") && fireReady)
         {
@@ -86,6 +115,26 @@ public class Controls : MonoBehaviour {
                 xdir = -1.0f;
                 ydir = 0;
                 break;
+            case Direction.obenrechts:
+                quat = Quaternion.Euler(0, 45.0f, 0);
+                xdir = 0.7f;
+                ydir = 0.7f;
+                break;
+            case Direction.untenrechts:
+                quat = Quaternion.Euler(0, 135.0f, 0);
+                xdir = 0.7f;
+                ydir = -0.7f;
+                break;
+            case Direction.untenlinks:
+                quat = Quaternion.Euler(0, 235.0f, 0);
+                xdir = -0.7f;
+                ydir = -0.7f;
+                break;
+            case Direction.obenlinks:
+                quat = Quaternion.Euler(0, 315.0f, 0);
+                xdir = -0.7f;
+                ydir = 0.7f;
+                break;
             default:
                 quat = Quaternion.identity;
                 xdir = 0;
@@ -101,7 +150,7 @@ public class Controls : MonoBehaviour {
 
     IEnumerator WaitSecs()
     {
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.2f);
         fireReady = true;
     }
 }

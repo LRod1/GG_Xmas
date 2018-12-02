@@ -15,9 +15,11 @@ public class Pfeil : MonoBehaviour {
     public float xdir;
     public float ydir;
 
+    GameManager gm;
+
     // Use this for initialization
     void Start () {
-		
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
 	}
 	
 	// Update is called once per frame
@@ -27,13 +29,12 @@ public class Pfeil : MonoBehaviour {
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log(collision.gameObject.name);
         if (!collision.gameObject.CompareTag("Player"))
             Destroy(this.gameObject);
         if (collision.gameObject.CompareTag("Enemy"))
         {
             Instantiate(part, collision.transform.position, Quaternion.identity);
-            Destroy(collision.gameObject);
+            gm.RemoveEnemy(collision.gameObject);
         }
     }
 }

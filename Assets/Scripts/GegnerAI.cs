@@ -7,14 +7,16 @@ public class GegnerAI : MonoBehaviour {
 
     public NavMeshAgent agent;
     public Transform target;
+    GameManager gm;
 
-	// Use this for initialization
-	void Start () {
-        agent.SetDestination(target.position);
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+    private void Awake()
+    {
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+    }
+
+    // Use this for initialization
+    void Start () {
+        agent.SetDestination(gm.GetTarget().position);
+        gm.enemies.Add(this.gameObject);
 	}
 }

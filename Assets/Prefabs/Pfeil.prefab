@@ -125,7 +125,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   body: {fileID: 54251619057351268}
-  runSpeed: 20
+  runSpeed: 30
   part: {fileID: 198856800240598158, guid: ad8b3e87ba9610444afb2647cdc02f6c, type: 2}
   xdir: 0
   ydir: 0
