@@ -4,12 +4,16 @@ using UnityEngine;
 
 public class Controls : MonoBehaviour {
 
+    private GameManager gm;
+
     //Bewegung
     Rigidbody body;
     float horizontal;
     float vertical;
     float moveLimiter = 0.7f;
     public float runSpeed;
+    private AudioSource source;
+    public AudioClip bow;
 
     //Schiessen
     public enum Direction
@@ -29,52 +33,58 @@ public class Controls : MonoBehaviour {
 
     void Start()
     {
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         body = GetComponent<Rigidbody>();
         fireReady = true;
+        source = GetComponent<AudioSource>();
     }
 
     void Update()
     {
-        horizontal = Input.GetAxisRaw("Horizontal");
-        vertical = Input.GetAxisRaw("Vertical");
-
-        //fürs schießen
-        if (horizontal != 0 || vertical != 0)
-            if (horizontal > 0.5f)
-            {
-                //rechts
-                if (vertical > 0.5f)
-                    direction = Direction.obenrechts;
-                else if (vertical < -0.5f)
-                    direction = Direction.untenrechts;
-                else
-                    direction = Direction.rechts;
-            }
-            else if (horizontal < -0.5f)
-            {
-                //links
-                if (vertical > 0.5f)
-                    direction = Direction.obenlinks;
-                else if (vertical < -0.5f)
-                    direction = Direction.untenlinks;
-                else
-                    direction = Direction.links;
-            }
-            else if (vertical > 0.5f)
-            {
-                direction = Direction.oben;
-            }
-            else if (vertical < -0.5f)
-            {
-                direction = Direction.unten;
-            }
-
-
-        if (Input.GetButton("Fire1") && fireReady)
+        if (gm.gameIsRunning)
         {
-            Feuer();
-            fireReady = false;
-            StartCoroutine(WaitSecs());
+            horizontal = Input.GetAxisRaw("Horizontal");
+            vertical = Input.GetAxisRaw("Vertical");
+
+            //fürs schießen
+            if (horizontal != 0 || vertical != 0)
+                if (horizontal > 0.5f)
+                {
+                    //rechts
+                    if (vertical > 0.5f)
+                        direction = Direction.obenrechts;
+                    else if (vertical < -0.5f)
+                        direction = Direction.untenrechts;
+                    else
+                        direction = Direction.rechts;
+                }
+                else if (horizontal < -0.5f)
+                {
+                    //links
+                    if (vertical > 0.5f)
+                        direction = Direction.obenlinks;
+                    else if (vertical < -0.5f)
+                        direction = Direction.untenlinks;
+                    else
+                        direction = Direction.links;
+                }
+                else if (vertical > 0.5f)
+                {
+                    direction = Direction.oben;
+                }
+                else if (vertical < -0.5f)
+                {
+                    direction = Direction.unten;
+                }
+
+
+            if (Input.GetButton("Fire1") && fireReady)
+            {
+                Feuer();
+                fireReady = false;
+                StartCoroutine(WaitSecs());
+                source.PlayOneShot(bow);
+            }
         }
     }
 

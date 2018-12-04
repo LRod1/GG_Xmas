@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour {
     public bool gameIsRunning;
     private bool waitForSpawn;
     private float spawnTime;
+    private bool spawnOver;
 
     public List<GameObject> objectives;
     public GameObject enemyPrefab;
@@ -23,18 +24,27 @@ public class GameManager : MonoBehaviour {
     public int Points { get; private set; }
     public int Highscore { get; private set; }
 
-	// Use this for initialization
-	void Start () {
+    public AudioClip hit;
+    public AudioClip end;
+    private AudioSource source;
+
+    // Use this for initialization
+    void Start () {
         rnd = new System.Random();
         Highscore = 0;
         ResetGame();
-	}
+        source = GetComponent<AudioSource>();
+        spawnOver = false;
+    }
 
 	
 	// Update is called once per frame
 	void Update () {
-        if (gameIsRunning && !waitForSpawn)
+        if (gameIsRunning && !waitForSpawn && !spawnOver)
             SpawnEnemy();
+        if (spawnOver)
+            if (enemies.Count <= 0)
+                WonGame();
 	}
 
     public void StartGame()
@@ -71,6 +81,7 @@ public class GameManager : MonoBehaviour {
 
     public void RemoveLive()
     {
+        source.PlayOneShot(end);
         Lives -= 1;
         if (Lives == 0)
             LostGame();
@@ -85,16 +96,6 @@ public class GameManager : MonoBehaviour {
     {
         enemies.Remove(enemy);
         Destroy(enemy.gameObject);
-        counter += 1;
-        roundCounter += 1;
-        if (roundCounter == 20)
-        {
-            roundCounter = 0;
-            Round += 1;
-            spawnTime -= 0.5f;
-            if (spawnTime <= 0)
-                WonGame();
-        }
         if (addPoints)
             AddPoints();
     }
@@ -111,6 +112,17 @@ public class GameManager : MonoBehaviour {
         Instantiate(enemyPrefab, spawnPoints[spawn].gameObject.transform.position, Quaternion.identity);
         waitForSpawn = true;
         StartCoroutine(WaitSecs(spawnTime));
+
+        counter += 1;
+        roundCounter += 1;
+        if (roundCounter == 20)
+        {
+            roundCounter = 0;
+            Round += 1;
+            spawnTime -= 0.5f;
+            if (spawnTime <= 0)
+                spawnOver = true;
+        }
     }
 
     private void WonGame()
@@ -123,6 +135,11 @@ public class GameManager : MonoBehaviour {
     {
         GetComponent<GameUI>().headline.SetText("Du hast verloren...");
         EndGame();
+    }
+
+    public void PlayHit()
+    {
+        source.PlayOneShot(hit);
     }
 
     IEnumerator WaitSecs(float spTime)
