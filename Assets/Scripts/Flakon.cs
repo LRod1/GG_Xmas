@@ -17,14 +17,15 @@ public class Flakon : MonoBehaviour {
     {
         if (other.CompareTag("Player"))
         {
-            gm.AddPoints();
+            gm.PlayHit();
+            gm.AddPoints(20);
             Destroy(this.gameObject);
         }
     }
 
     IEnumerator WaitSecs()
     {
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(5.0f);
         Destroy(this.gameObject);
     }
 }

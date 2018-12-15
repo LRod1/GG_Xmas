@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour {
     public List<GameObject> objectives;
     public GameObject enemyPrefab;
 
+    public GameObject flakonPrefab;
+
     System.Random rnd;
 
     private int counter;
@@ -26,7 +28,9 @@ public class GameManager : MonoBehaviour {
 
     public AudioClip hit;
     public AudioClip end;
+    public AudioClip runde;
     private AudioSource source;
+
 
     // Use this for initialization
     void Start () {
@@ -42,7 +46,7 @@ public class GameManager : MonoBehaviour {
 	void Update () {
         if (gameIsRunning && !waitForSpawn && !spawnOver)
             SpawnEnemy();
-        if (spawnOver)
+        if (spawnOver && gameIsRunning)
             if (enemies.Count <= 0)
                 WonGame();
 	}
@@ -56,6 +60,7 @@ public class GameManager : MonoBehaviour {
     public void EndGame()
     {
         gameIsRunning = false;
+        AddPoints(Lives * 30);
         if (Points > Highscore)
             Highscore = Points;
         foreach (GameObject enemy in enemies)
@@ -67,6 +72,7 @@ public class GameManager : MonoBehaviour {
 
     public void ResetGame()
     {
+        spawnOver = false;
         waitForSpawn = false;
         Round = 1;
         counter = 0;
@@ -87,9 +93,9 @@ public class GameManager : MonoBehaviour {
             LostGame();
     }
 
-    public void AddPoints()
+    public void AddPoints(int punkte)
     {
-        Points += 10 * Round;
+        Points += punkte * Round;
     }
 
     public void RemoveEnemy(GameObject enemy, bool addPoints)
@@ -97,7 +103,7 @@ public class GameManager : MonoBehaviour {
         enemies.Remove(enemy);
         Destroy(enemy.gameObject);
         if (addPoints)
-            AddPoints();
+            AddPoints(10);
     }
 
     public Transform GetTarget()
@@ -113,15 +119,25 @@ public class GameManager : MonoBehaviour {
         waitForSpawn = true;
         StartCoroutine(WaitSecs(spawnTime));
 
+        //spawn flakon
+        int flakon;
+        do
+        {
+            flakon = rnd.Next(4);
+        } while (flakon == spawn);
+        Instantiate(flakonPrefab, spawnPoints[flakon].gameObject.transform.position, Quaternion.Euler(-90.0f, 0, 0));
+
         counter += 1;
         roundCounter += 1;
         if (roundCounter == 20)
         {
+            source.PlayOneShot(runde);
             roundCounter = 0;
             Round += 1;
             spawnTime -= 0.5f;
-            if (spawnTime <= 0)
+            if (spawnTime <= 0.5f)
                 spawnOver = true;
+            Debug.Log("Runde " + spawnTime.ToString());
         }
     }
 
@@ -140,6 +156,15 @@ public class GameManager : MonoBehaviour {
     public void PlayHit()
     {
         source.PlayOneShot(hit);
+    }
+
+    public void SoundOnOff()
+    {
+        //GameObject.Find("Main Camera").GetComponent<AudioListener>().enabled = !GameObject.Find("Main Camera").GetComponent<AudioListener>().enabled;
+        if (AudioListener.volume == 0)
+            AudioListener.volume = 1;
+        else
+            AudioListener.volume = 0;
     }
 
     IEnumerator WaitSecs(float spTime)

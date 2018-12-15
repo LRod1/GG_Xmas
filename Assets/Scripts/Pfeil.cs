@@ -35,8 +35,6 @@ public class Pfeil : MonoBehaviour {
         {
             gm.PlayHit();
             Instantiate(part, collision.transform.position, Quaternion.identity);
-            GameObject flak = Instantiate(collision.gameObject.GetComponent<GegnerAI>().flakonPrefab, transform.position, Quaternion.identity);
-            flak.transform.rotation = Quaternion.Euler(-90.0f, 0, 0);
             gm.RemoveEnemy(collision.gameObject, true);
         }
     }

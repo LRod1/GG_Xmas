@@ -14,6 +14,7 @@ public class Controls : MonoBehaviour {
     public float runSpeed;
     private AudioSource source;
     public AudioClip bow;
+    public GameObject weihnachtsmann;
 
     //Schiessen
     public enum Direction
@@ -43,6 +44,9 @@ public class Controls : MonoBehaviour {
     {
         if (gm.gameIsRunning)
         {
+            if (Input.GetKeyDown(KeyCode.Escape))
+                gm.EndGame();
+
             horizontal = Input.GetAxisRaw("Horizontal");
             vertical = Input.GetAxisRaw("Vertical");
 
@@ -77,6 +81,8 @@ public class Controls : MonoBehaviour {
                     direction = Direction.unten;
                 }
 
+            RotateWeihnachtsmann();
+
 
             if (Input.GetButton("Fire1") && fireReady)
             {
@@ -86,6 +92,9 @@ public class Controls : MonoBehaviour {
                 source.PlayOneShot(bow);
             }
         }
+        else
+            if (Input.GetKeyDown(KeyCode.Escape))
+                Application.Quit();
     }
 
     void FixedUpdate()
@@ -94,6 +103,43 @@ public class Controls : MonoBehaviour {
             body.velocity = new Vector3((horizontal * runSpeed) * moveLimiter, 0, (vertical * runSpeed) * moveLimiter);
         else
             body.velocity = new Vector3(horizontal * runSpeed, 0, vertical * runSpeed);
+    }
+
+
+    private void RotateWeihnachtsmann()
+    {
+        Quaternion quat;
+        switch (direction)
+        {
+            case Direction.unten:
+                quat = Quaternion.identity;
+                break;
+            case Direction.oben:
+                quat = Quaternion.Euler(0, 180.0f, 0);
+                break;
+            case Direction.links:
+                quat = Quaternion.Euler(0, 90.0f, 0);
+                break;
+            case Direction.rechts:
+                quat = Quaternion.Euler(0, -90.0f, 0);
+                break;
+            case Direction.untenlinks:
+                quat = Quaternion.Euler(0, 45.0f, 0);
+                break;
+            case Direction.obenlinks:
+                quat = Quaternion.Euler(0, 135.0f, 0);
+                break;
+            case Direction.obenrechts:
+                quat = Quaternion.Euler(0, 235.0f, 0);
+                break;
+            case Direction.untenrechts:
+                quat = Quaternion.Euler(0, 315.0f, 0);
+                break;
+            default:
+                quat = Quaternion.identity;
+                break;
+        }
+        weihnachtsmann.transform.rotation = quat;
     }
 
 

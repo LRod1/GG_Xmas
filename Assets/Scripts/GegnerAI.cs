@@ -9,8 +9,6 @@ public class GegnerAI : MonoBehaviour {
     public Transform target;
     GameManager gm;
 
-    public GameObject flakonPrefab;
-
     private void Awake()
     {
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
