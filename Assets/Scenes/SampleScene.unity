@@ -517,7 +517,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: X-Mas Rush
+  m_text: GG-XMas-Special
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3ee4afd7d4daf9945a75db8dc8cefb3e, type: 2}
   m_sharedMaterial: {fileID: 21776705521109026, guid: 3ee4afd7d4daf9945a75db8dc8cefb3e,
@@ -586,10 +586,10 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 114952678}
-    characterCount: 10
+    characterCount: 15
     spriteCount: 0
-    spaceCount: 1
-    wordCount: 2
+    spaceCount: 0
+    wordCount: 1
     linkCount: 0
     lineCount: 1
     pageCount: 1
@@ -5271,8 +5271,8 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: "Eine Horde Grinchs will die Redaktions-Weihnachtsgeschenke und das Tofu
-    des Chefredakteurs klauen. Jetzt liegt es an Dir, die Weihnachtsfeier zu retten!\n\nSammle
+  m_text: "Eine Horde Grinchs will den Redaktions-Weihnachtsbaum und das Tofu des
+    Chefredakteurs klauen. Jetzt liegt es an Dir, die Weihnachtsfeier zu retten!\n\nSammle
     Flakons f\xFCr Bonuspunkte!\nBewegung: WASD / Pfeiltasten / Gamepad\nFeuer: Space
     / Mausklick / Gamepad-A"
   m_isRightToLeft: 0
@@ -5343,12 +5343,12 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 1316904490}
-    characterCount: 261
+    characterCount: 256
     spriteCount: 0
     spaceCount: 37
     wordCount: 33
     linkCount: 0
-    lineCount: 7
+    lineCount: 6
     pageCount: 1
     materialCount: 1
   m_havePropertiesChanged: 0
