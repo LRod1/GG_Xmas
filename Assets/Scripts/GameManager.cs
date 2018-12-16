@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour {
     private bool waitForSpawn;
     private float spawnTime;
     private bool spawnOver;
+    private bool wonGame;
 
     public List<GameObject> objectives;
     public GameObject enemyPrefab;
@@ -38,7 +39,6 @@ public class GameManager : MonoBehaviour {
         Highscore = 0;
         ResetGame();
         source = GetComponent<AudioSource>();
-        spawnOver = false;
     }
 
 	
@@ -46,9 +46,12 @@ public class GameManager : MonoBehaviour {
 	void Update () {
         if (gameIsRunning && !waitForSpawn && !spawnOver)
             SpawnEnemy();
-        if (spawnOver && gameIsRunning)
+        if (spawnOver && !wonGame)
             if (enemies.Count <= 0)
+            {
+                wonGame = true;
                 WonGame();
+            }
 	}
 
     public void StartGame()
@@ -72,6 +75,7 @@ public class GameManager : MonoBehaviour {
 
     public void ResetGame()
     {
+        wonGame = false;
         spawnOver = false;
         waitForSpawn = false;
         Round = 1;
